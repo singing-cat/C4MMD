@@ -29,7 +29,8 @@ from tqdm import tqdm
 
 
 trained_model_path = f'trained_models/C4MMD.pth'
-image_file_path = '''
+image_file_path = 'data/image'
+'''
 Fill in the image save path here, which should have two folders containing Chinese and English images, respectively.
 For example:
 
@@ -39,14 +40,16 @@ data/image -> the image file path, which contains two folders as follow.
 '''
 log_file_name = 'C4MMD'
 
-language_model = '''
+language_model = 'xlm-roberta-base'
+'''
 Your saved language model path, for example:
 
 xlm-roberta-base
 
 If you want to reproduce our results, please use the example model type above.
 '''
-vision_model = '''
+vision_model = 'vit-base-patch16-224'
+'''
 Your saved vision model path, for example:
 
 vit-base-patch16-224
@@ -54,15 +57,18 @@ vit-base-patch16-224
 If you want to reproduce our results, please use the example model type above.
 '''
 
-train_data = '''
+train_data = 'data/train_data.json'
+'''
 your training data, you can get data type in the data folder. For example:
 data/train_data.json
 '''
-val_data = '''
+val_data = 'data/val_data.json'
+'''
 your training data, you can get data type in the data folder. For example:
 data/val_data.json
 '''
-test_data = '''
+test_data = 'data/test_data.json'
+'''
 your training data, you can get data type in the data folder. For example:
 data/test_data.json
 '''

@@ -16,7 +16,8 @@ import random
 
 random.seed(42)
 
-load_path = '''
+load_path = 'data'
+'''
 data path you donwload from met-meme dataset, for example:
 data/Chinese -> This contains tow file.
     |_C_text.csv -> This file indicates the OCR text corresponding to each image
@@ -25,7 +26,7 @@ data/Chinese -> This contains tow file.
 
 
 def read_file(file_name, image_file, chinese=False):
-    with open(file_name, 'r', encoding='utf-8') as f:
+    with open(file_name, 'r', encoding='gbk') as f:
         reader = csv.reader(f)
         output_list = []
         for i, line in enumerate(reader):
@@ -41,21 +42,13 @@ def read_file(file_name, image_file, chinese=False):
         return output_list, head
 
 
-def device_dataset(data):
+def divide_dataset(data):
     train_num = int(len(data) * 0.6)
     train_data = data[: train_num]
     val_num = int(len(data) * 0.2)
     val_data = data[train_num: train_num + val_num]
     test_data = data[val_num + train_num:]
     return train_data, val_data, test_data
-
-
-def write_file(file_name, data, head):
-    with open(file_name, 'w', encoding='utf-8', newline='') as f:
-        writer = csv.writer(f)
-        writer.writerow(head)
-        for line in data:
-            writer.writerow(line)
 
 
 def add_text(data, text_data, head):
@@ -90,8 +83,8 @@ english_data, e_head = read_file(f'{load_path}/label_E.csv', 'English/')
 english_data, e_head = add_text(english_data, english_text_data, e_head)
 
 
-c_train, c_val, c_test = device_dataset(chinese_data)
-e_train, e_val, e_test = device_dataset(english_data)
+c_train, c_val, c_test = divide_dataset(chinese_data)
+e_train, e_val, e_test = divide_dataset(english_data)
 
 train_data = c_train + e_train
 random.shuffle(train_data)
@@ -100,6 +93,6 @@ random.shuffle(val_data)
 test_data = c_test + e_test
 random.shuffle(test_data)
 
-save_json('../data/train_data.json', convert_list2dict(train_data, c_head))
-save_json('../data/val_data.json', convert_list2dict(val_data, c_head))
-save_json('../data/test_data.json', convert_list2dict(test_data, c_head))
+save_json('data/train_data.json', convert_list2dict(train_data, c_head))
+save_json('data/val_data.json', convert_list2dict(val_data, c_head))
+save_json('data/test_data.json', convert_list2dict(test_data, c_head))
