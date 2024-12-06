@@ -12,6 +12,11 @@ We hope to help you reproduce our work with minimal code.
 import logging
 import torch
 from torch import nn as nn
+try:
+		import torch_npu
+		from torch_npu.contrib import transfer_to_npu
+except:
+		pass
 import json
 from sklearn import metrics
 from PIL import Image, ImageFile
@@ -48,7 +53,7 @@ xlm-roberta-base
 
 If you want to reproduce our results, please use the example model type above.
 '''
-vision_model = 'vit-base-patch16-224'
+vision_model = 'google/vit-base-patch16-224'
 '''
 Your saved vision model path, for example:
 
@@ -57,17 +62,17 @@ vit-base-patch16-224
 If you want to reproduce our results, please use the example model type above.
 '''
 
-train_data = 'data/train_data.json'
+train_data = 'data/mix_train_data.json'
 '''
 your training data, you can get data type in the data folder. For example:
 data/train_data.json
 '''
-val_data = 'data/val_data.json'
+val_data = 'data/mix_val_data.json'
 '''
 your training data, you can get data type in the data folder. For example:
 data/val_data.json
 '''
-test_data = 'data/test_data.json'
+test_data = 'data/mix_test_data.json'
 '''
 your training data, you can get data type in the data folder. For example:
 data/test_data.json
@@ -75,7 +80,7 @@ data/test_data.json
 
 do_train = True
 
-device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
+device = 'cuda:4' if torch.cuda.is_available() else 'cpu'
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 NUM_LABELS = 2
@@ -275,9 +280,9 @@ def save_best_F1(f1_log):
         f.write('\n')
 
 
-if not os.path.exists('log'):
-    os.makedirs('log')
-file_handler = logging.FileHandler(f'log/{log_file_name}.txt')
+if not os.path.exists('Logs'):
+    os.makedirs('Logs')
+file_handler = logging.FileHandler(f'Logs/{log_file_name}.txt')
 file_handler.setLevel(level=logging.INFO)
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
